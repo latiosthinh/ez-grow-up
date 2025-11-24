@@ -29,7 +29,7 @@ export class OnboardingScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Next Button
-        const nextBtn = this.add.text(width - 100, height - 50, 'Next >', {
+        this.add.text(width - 100, height - 50, 'Next >', {
             fontSize: '24px',
             color: GameConfig.Colors.Primary.toString()
         })
