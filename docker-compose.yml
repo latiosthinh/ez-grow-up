@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: ez-growup-app
+    ports:
+      - "10055:80"
+    restart: always
