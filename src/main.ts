@@ -1,7 +1,9 @@
-import './style.css'
-import Phaser from 'phaser'
-import { MainMenuScene } from './scenes/MainMenuScene';
-
+import { PreloadScene } from './scenes/PreloadScene';
+import { OnboardingScene } from './scenes/OnboardingScene';
+import { LanguageSelectionScene } from './scenes/LanguageSelectionScene';
+import { AgeSelectionScene } from './scenes/AgeSelectionScene';
+import { DifficultySelectionScene } from './scenes/DifficultySelectionScene';
+import { CategorySelectionScene } from './scenes/CategorySelectionScene';
 import { GameScene } from './scenes/GameScene';
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -12,11 +14,19 @@ const config: Phaser.Types.Core.GameConfig = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 0 },
+            gravity: { x: 0, y: 0 },
             debug: false
         }
     },
-    scene: [MainMenuScene, GameScene]
+    scene: [
+        PreloadScene,
+        OnboardingScene,
+        LanguageSelectionScene,
+        AgeSelectionScene,
+        DifficultySelectionScene,
+        CategorySelectionScene,
+        GameScene
+    ]
 };
 
 new Phaser.Game(config);

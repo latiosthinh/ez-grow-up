@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
 import { GameConfig } from '../utils/GameConfig';
-import { LanguageManager } from '../utils/LanguageManager';
+import { GameManager } from '../utils/GameManager';
 
-export class MainMenuScene extends Phaser.Scene {
+export class LanguageSelectionScene extends Phaser.Scene {
     constructor() {
-        super('MainMenuScene');
+        super('LanguageSelectionScene');
     }
 
     preload() {
@@ -15,24 +15,18 @@ export class MainMenuScene extends Phaser.Scene {
         const { width, height } = this.scale;
 
         // Title
-        this.add.text(width / 2, height * 0.2, 'EZ GrowUp', {
-            fontSize: '64px',
-            color: GameConfig.Colors.Text
-        }).setOrigin(0.5);
-
-        // Language Selection
-        this.add.text(width / 2, height * 0.4, 'Select Language / Chọn Ngôn Ngữ', {
-            fontSize: '32px',
+        this.add.text(width / 2, height * 0.2, 'Select Language', {
+            fontSize: '48px',
             color: GameConfig.Colors.Text
         }).setOrigin(0.5);
 
         // English Button
-        this.createButton(width / 2 - 150, height * 0.6, 'English', () => {
+        this.createButton(width / 2 - 150, height * 0.5, 'English', () => {
             this.selectLanguage(GameConfig.Languages.English);
         });
 
         // Vietnamese Button
-        this.createButton(width / 2 + 150, height * 0.6, 'Tiếng Việt', () => {
+        this.createButton(width / 2 + 150, height * 0.5, 'Tiếng Việt', () => {
             this.selectLanguage(GameConfig.Languages.Vietnamese);
         });
     }
@@ -53,8 +47,7 @@ export class MainMenuScene extends Phaser.Scene {
     }
 
     private selectLanguage(lang: string) {
-        LanguageManager.getInstance().setLanguage(lang);
-        this.scene.start('GameScene');
-        console.log(`Starting game in ${lang}`);
+        GameManager.getInstance().setLanguage(lang);
+        this.scene.start('AgeSelectionScene');
     }
 }

@@ -1,3 +1,5 @@
+import { GameManager } from './GameManager';
+
 export interface LevelData {
     id: number;
     letters: string[];
@@ -6,12 +8,9 @@ export interface LevelData {
 
 export class LevelManager {
     private static instance: LevelManager;
-    private levels: LevelData[] = [];
     private currentLevelIndex: number = 0;
 
-    private constructor() {
-        this.loadLevels();
-    }
+    private constructor() { }
 
     public static getInstance(): LevelManager {
         if (!LevelManager.instance) {
@@ -20,25 +19,37 @@ export class LevelManager {
         return LevelManager.instance;
     }
 
-    private loadLevels() {
-        // Mock levels
-        this.levels = [
-            { id: 1, letters: ['A', 'B', 'C'] },
-            { id: 2, letters: ['D', 'E', 'F'] },
-            { id: 3, letters: ['G', 'H', 'I'] }
-        ];
+    public getCurrentLevel(): LevelData {
+        return this.generateLevel();
     }
 
-    public getCurrentLevel(): LevelData {
-        return this.levels[this.currentLevelIndex];
+    private generateLevel(): LevelData {
+        const difficulty = GameManager.getInstance().getDifficulty();
+        const category = GameManager.getInstance().getCategory();
+
+        let pool: string[] = [];
+        if (category === 'abc') {
+            pool = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+        } else if (category === '123') {
+            pool = ['1', '2', '3', '4', '5', '6', '7'];
+        } else {
+            pool = ['A', 'B', 'C', '1', '2', '3', 'X', 'Y', 'Z'];
+        }
+
+        // Shuffle and pick 'difficulty' number of items
+        const shuffled = pool.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, difficulty);
+
+        return {
+            id: this.currentLevelIndex + 1,
+            letters: selected
+        };
     }
 
     public nextLevel(): boolean {
-        if (this.currentLevelIndex < this.levels.length - 1) {
-            this.currentLevelIndex++;
-            return true;
-        }
-        return false;
+        this.currentLevelIndex++;
+        // Infinite levels for now
+        return true;
     }
 
     public reset() {
